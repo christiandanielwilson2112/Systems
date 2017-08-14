@@ -1,0 +1,27 @@
+#!/usr/bin/perl -w
+
+$sessions{""}=$connect{""}=$input{""}=$output{""}=0;
+while ( <> ) {
+      if ( /User-Name = (\S+)/ ) {
+              $user = $1;
+                } elsif ( /Acct-Status-Type = Stop/ ) {
+                        $sessions{$user}++;
+                          } elsif ( /Acct-Session-Time = (\d+)/ ) {
+                                  $connect{$user} += $1;
+                                    } elsif ( /Acct-Input-Packets = (\d+)/ ) {
+                                            $input{$user} += $1;
+                                              } elsif ( /Acct-Output-Packets = (\d+)/ ) {
+                                                      $output{$user} += $1;
+                                                        } elsif ( /Framed-Address/ ) {
+                                                                $user = "";
+                                                                  }
+}
+
+foreach $usr ( sort keys(%sessions) ) {
+      print "User:\t\t\t$usr\n";
+        print "Number of Sessions:\t$sessions{$usr}\n";
+          print "Total Connect Time:\t$connect{$usr}\n";
+            print "Input Bandwidth Usage:\t$input{$usr}\n";
+              print "Output Bandwidth Usage:\t$output{$usr}\n\n";
+}
+

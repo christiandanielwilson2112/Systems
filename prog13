@@ -1,0 +1,13 @@
+#!/usr/bin/perl -w
+
+while ( <> ) {
+      if ( /Acct-Input-Packets = (\d+)/ ) {
+              $input += $1;
+                }
+                  if ( /Acct-Output-Packets = (\d+)/ ) {
+                          $output += $1;
+                            }
+}
+
+print "Total Input Bandwidth Usage  = $input packets\n";
+print "Total Output Bandwidth Usage = $output packets\n";

@@ -1,0 +1,55 @@
+#!/usr/bin/perl -w
+
+if(@ARGV == 3) {
+    $switches = shift;
+ } else {
+    $switches = "ds12";
+ }    
+
+$dir1 = shift;
+$dir2 = shift;
+@list1 = `ls $dir1`;
+@list2 = `ls $dir2`;
+chop @list1;
+chop @list2;
+
+@list1t = @list1;
+@list2t = @list2;
+
+@list3 = ();
+foreach $i (@list1t) {
+    foreach $j (@list2t) {
+        push(@list3, $i) if $i eq $j;
+    }
+}
+
+foreach $i (@list1t) {
+    $hash{$i} = 1;
+}
+
+foreach $j (@list2t) {
+    $hash{$j} = 2;
+}
+
+foreach $k (@list3) {
+    $hash{$k} = 3;
+}
+
+foreach $key(sort keys %hash) {
+    if($hash{$key} == 3) {
+        $diff = `/usr/bin/diff -q $dir1/$key $dir2/$key`;
+        $hash{$key} = 4 if $diff eq '';
+    }
+}
+
+foreach $key(keys %hash) {
+    if($hash{$key} == 1) {
+        print "<<< $key\n" if $switches =~ /1/;}
+    if($hash{$key} == 2) {
+        print ">>> $key\n" if $switches =~ /2/;}
+    if($hash{$key} == 3) {
+        print "< $key >\n" if $switches =~ /d/;}
+    if($hash{$key} == 4) {
+        print "> $key <\n" if $switches =~ /s/;}
+}
+

@@ -1,0 +1,18 @@
+#!/usr/bin/perl -w
+
+@array = ("cat","","dog","rat",undef,"hat");
+for($i = 0; $i < @array; $i++) {
+ if(defined($array[$i])) {
+	print "\$array[$i] = $array[$i]\n";
+  } else {
+	print "undefined\n";
+  }
+}
+
+while($str = shift @array) {
+ if(defined($str)) {
+	print "\$str = $str\n";
+ } else {
+	print "undefined\n";
+ }
+}

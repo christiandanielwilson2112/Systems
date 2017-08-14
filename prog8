@@ -1,0 +1,10 @@
+#!/usr/bin/perl -w
+
+while ( <> ) {
+      if ( /^root\s+(\d+) .+ sendmail: \w+ (\S+).: user open/ ) {
+              print "$2   $1\n";
+                }
+                  if ( /^root\s+(\d+) .+ sendmail: server (\S+@)?(\S+)/ ) {
+                          print "$3   $1\n";
+                            }
+}

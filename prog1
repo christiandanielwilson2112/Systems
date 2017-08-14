@@ -1,0 +1,4 @@
+#!/usr/bin/perl -w
+foreach $i (@ARGV) {
+print "$i\n";
+}

@@ -1,0 +1,9 @@
+#!/usr/bin/perl -w
+
+while ( <> ) {
+      if ( /Acct-Session-Time = (\d+)/ ) {
+              $time += $1;
+                }
+}
+
+print "Total User Session Time = $time\n";

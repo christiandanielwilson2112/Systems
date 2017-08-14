@@ -1,0 +1,39 @@
+#!/usr/bin/perl -w
+$cnt = 10;
+while( $cnt ) {
+ print "$cnt ...\n";
+ sleep 1;
+ --$cnt;
+}
+print "BOOM!\n";
+
+for( $cnt=10; $cnt>0; $cnt-- ) {
+ print "$cnt ... \n";
+ sleep 1;
+}
+
+foreach $arg( @ARGV ) {
+ print "$arg\n";
+}
+
+print join("\n", @ARGV), "\n";
+
+$pat = shift @ARGV;
+while($_ = <ARGV>) {
+  if(/$pat/) {
+  print "$ARGV:$_";
+ }
+}
+
+while($_ = <ARGV>) {
+ chomp;
+ if($_) {
+ print $_, "\n";
+ }
+
+ print if $_ ne "\n";
+ print unless $_ eq "\n";
+ print unless /^$/;
+ s/^\n$//;
+ print; 
+}

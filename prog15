@@ -1,0 +1,39 @@
+#!/usr/bin/perl -w
+
+$user = "unknown";
+while ( <> ) {
+      if ( /^\w+ \w+ \d+ (\d+:\d+:\d+)/ ) {
+              $curtime = $1;
+                } elsif ( /User-Name = "(\S+)"/ ) {
+                        $user = $1;
+                          } elsif ( /Acct-Session-Id = "(\d+)"/ ) {
+                                  $usess = $1;
+                                      $undx = $user . ":" . $usess;
+                                          $time{$undx} = $curtime;
+                                              # Initialize entries to avoid warnings
+                                                  $connect{$undx} = "";
+                                                      $framedadd{$undx} = "";
+                                                          $firstadd{$undx} = "";
+                                                            } elsif ( /Acct-Session-Time = (\d+)/ ) {
+                                                                    $connect{$undx} = $1;
+                                                                      } elsif ( /Framed-Address = (\S+)/ ) {
+                                                                              $framedadd{$undx} = $1;
+                                                                                } elsif ( /Ascend-First-Dest = (\S+)/ ) {
+                                                                                        $firstadd{$undx} = $1;
+                                                                                          } elsif ( /^$/ ) {
+                                                                                                  $user = "unknown";
+                                                                                                      $usess = "";
+                                                                                                          $undx = "";
+                                                                                                              
+                                                                                                                }
+}
+
+foreach $undx ( sort keys(%time) ) {
+      ($user,$sess) = split(/:/,$undx);
+        print "User:\t\t\t$user\n";
+          print "Session ID:\t\t$sess\n";
+            print "Framed Address:\t\t$framedadd{$undx}\n";
+              print "Disconnect Time:\t$time{$undx}\n";
+                print "Session Time:\t\t$connect{$undx}\n";
+                  print "First Address:\t\t$firstadd{$undx}\n\n";
+}

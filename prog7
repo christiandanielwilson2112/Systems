@@ -1,0 +1,11 @@
+#!/usr/bin/perl -w
+
+$dir = $ARGV[0];
+open(DIR,"/bin/ls $dir |") || die "Unable to open directory $ARGV[0]: $!\n";
+while ( <DIR> ) {
+      chop;
+        if ( -d "$dir/$_" ) {
+                print "$dir/$_", "\n";
+                  }
+}
+

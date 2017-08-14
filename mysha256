@@ -1,0 +1,23 @@
+#!/usr/bin/perl -w
+   
+if(@ARGV == 2) {
+        $shafile = pop @ARGV;
+   }
+               
+ @dirs = <>;
+ chop @dirs;
+ @files = `find @dirs`;
+ chop @files;
+ @rfiles = grep(-f, @files);
+ @rfiles = `sha256sum @rfiles`;
+ chop @rfiles;
+                          
+ @nfiles = grep(s/(\S+)(\s+)(\S+)/$3\t$1/, @rfiles);
+                            
+ if($shafile) {
+         open(OUTFILE, "> $shafile") or die "Can't write to sha256file";
+         print OUTFILE join("\n", @nfiles), "\n"; 
+     } else {
+                print join("\n", @nfiles), "\n";
+     }      
+

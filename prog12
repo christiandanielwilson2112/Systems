@@ -1,0 +1,24 @@
+#!/usr/bin/perl -w
+
+$conn144=$conn192=$conn288=$conn336=$conngt=0;
+while ( <> ) {
+      if ( /Ascend-Data-Rate = (\d+)/ ) {
+              if ( $1 <= 14400 ) {
+                        $conn144++;
+                            } elsif ( $1 <= 19200 ) {
+                                      $conn192++;
+                                          } elsif ( $1 <= 28800 ) {
+                                                    $conn288++;
+                                                        } elsif ( $1 <= 33600 ) {
+                                                                  $conn336++;
+                                                                      } else {
+                                                                                $conngt++;
+                                                                                    }
+                                                                                      }
+}
+
+print "0-14400\t\t$conn144\n";
+print "14401-19200\t$conn192\n";
+print "19201-28800\t$conn288\n";
+print "28801-33600\t$conn336\n";
+print "above 33600\t$conngt\n";

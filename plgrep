@@ -1,0 +1,63 @@
+#!/usr/bin/perl -w
+
+if( $ARGV[0] eq "-f") {
+    $switch = 1;
+    shift @ARGV;
+} else {
+    $switch = 0;
+}
+$rexp = shift;
+LINE:
+foreach $var ( <@ARGV> ) {
+    
+    if(-d $var) {
+        open(DIR, "find $var |");
+        A:
+        while($files = <DIR>) {
+          chop $files; 
+          if(-f $files && -T $files) {
+            open(LINES, $files);
+               while(<LINES>) {
+                  if(/$rexp/ && $switch == 1) {
+                         print "$files\n";
+                         next A;
+                    } 
+                    if(/$rexp/ && $switch == 0){
+                         print "$files:$_";
+                         next A;
+                    }
+          }
+         }
+        if(-f $files && -B $files) {
+            open(LINES, $files);
+            while(<LINES>) {
+               print `strings $files`;
+               next A;
+            }
+        }
+    }
+}
+    
+    if(-f $var && -T $var) {
+        open(LINES, $var);
+        while(<LINES>) {
+            if(/$rexp/ && $switch == 1) {
+                print "$var\n";
+                next LINE;
+            } 
+            if(/$rexp/ && $switch == 0){
+                print "$var:$_";
+                next LINE;
+            }
+        }
+    }
+
+    if(-f $var && -B $var) {
+        open(LINES, $var);
+        while(<LINES>) {
+            print `strings $var`;
+            next LINE;
+        }
+    }
+}
+print "\n";
